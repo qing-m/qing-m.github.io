@@ -1,6 +1,4 @@
 # Hexo Configuration
-## Docs: https://hexo.io/docs/configuration.html
-## Source: https://github.com/hexojs/hexo/
 
 # Site
 title: CYBERPUNK
@@ -127,7 +125,4 @@ theme: landscape
 # Deployment
 ## 部署部分的设置
 deploy:
-  type: git
-  repo: https://qing-m.github.io/Alone/
-  branch: master
-  message: Commit
+  type: ''
