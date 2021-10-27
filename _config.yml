@@ -63,4 +63,4 @@ theme: icarus
 deploy:
   type: git
   repo: https://github.com/qing-m/qing-m.github.io
-  branch: master
+  branch: main
