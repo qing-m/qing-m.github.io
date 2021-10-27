@@ -127,4 +127,7 @@ theme: landscape
 # Deployment
 ## 部署部分的设置
 deploy:
-  type: ''
+  type: git
+  repo: https://qing-m.github.io/Alone/
+  branch: master
+  message: Commit
