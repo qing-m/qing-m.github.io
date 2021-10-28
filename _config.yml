@@ -127,4 +127,4 @@ theme: landscape
 deploy:
   type: git
   repo: git@github.com:qing-m/qing-m.github.io.git # 同步的仓库
-  branch: master # 同步的分组，与travis中的分支相
+  branch: gh-pages # 同步的分组
