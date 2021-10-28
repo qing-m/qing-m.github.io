@@ -164,12 +164,12 @@ donates:
     -
         type: alipay
         # 支付宝二维码图片
-        qrcode: ''
+        qrcode: /image/donation_qr/alipay-qr.jpg
     # 微信捐赠按钮配置
     -
         type: wechat
         # 微信宝二维码图片
-        qrcode: ''
+        qrcode: /image/donation_qr/wchat-qr.jpg
 # 分享插件配置
 # https://ppoffice.github.io/hexo-theme-icarus/categories/Plugins/Share/
 share:
@@ -186,13 +186,12 @@ sidebar:
     # 右栏的配置
     right:
         # 当页面滚动时侧边栏是否停留在顶部
-        sticky: false
+        sticky: true
 # 布局配置文件
 # http://ppoffice.github.io/hexo-theme-icarus/categories/Widgets/
 widgets:
-    # 配置小部件的配置
+    # 个人资料
     -
-        # 小部件应该放在哪里，左边栏还是右边栏
         position: left
         type: profile
         # 作者名字
@@ -202,14 +201,14 @@ widgets:
         # 位置
         location: Z市
         # 头像URL
-        avatar: /img/header.jpg
+        avatar: /image/avatar.jpg
         # 是否显示圆形头像图像
         avatar_rounded: true
-        # # Gravatar的电子邮件地址
-        # gravatar: '809221582@qq.com'
-        # 关注我的URL
+        # Gravatar邮箱(如不设置`avatar`项)
+        gravatar:
+        # 关注按钮链接地址
         follow_link: 'https://github.com/qing-m'
-        # 链接显示在配置文件小部件的底部
+        # 社交媒体链接
         social_links:
             Github:
                 icon: fab fa-github
@@ -217,10 +216,9 @@ widgets:
             RSS:
                 icon: fas fa-rss
                 url: /
-    # 小部件配置的目录表
+    # 文章目录
     -
-        # 小部件应该放在哪里，左边栏还是右边栏
-        position: left
+        position: right
         type: toc
         # 是否显示每个标题的索引
         index: true
@@ -228,65 +226,56 @@ widgets:
         collapsed: true
         # 标题显示的最高水平(1-6)
         depth: 3
-    # 建议链接小部件配置
+    # 友情链接
     -
-        # 小部件应该放在哪里，左边栏还是右边栏
         position: left
         type: links
         # 站点的名称和url
         links:
             Hexo: 'https://hexo.io'
-            Bulma: 'https://bulma.io'
-    # 类别小部件的配置
+    # 文章分类
     -
-        # 小部件应该放在哪里，左边栏还是右边栏
         position: left
         type: categories
-    # 最近发布的小部件配置
+    # 最新文章
     -
-        # 小部件应该放在哪里，左边栏还是右边栏
         position: left
         type: recent_posts
-    # 档案小部件的配置
+    # 文章归档
     -
-        # 小部件应该放在哪里，左边栏还是右边栏
         position: left
         type: archives
-    # 标签小部件的配置
+    # 文章标签
     -
-        # 小部件应该放在哪里，左边栏还是右边栏
         position: left
         type: tags
     # Google FeedBurner email 订阅小部件的配置
-    -
-        # 小部件应该放在哪里，左边栏还是右边栏
-        position: left
-        type: subscribe_email
-        # 提示文本下的电子邮件输入
-        description: 
-        # Feedburner ID
-        feedburner_id: ''
-    # Google AdSense 配置
-    -
-        # 小部件应该放在哪里，左边栏还是右边栏
-        position: left
-        type: adsense
-        # AdSense client ID
-        client_id: ''
-        # AdSense AD unit ID
-        slot_id: ''
+    # -
+    #     position: left
+    #     type: subscribe_email
+    #     # 提示文本下的电子邮件输入
+    #     description: 
+    #     # Feedburner ID
+    #     feedburner_id: ''
+    # Google AdSense 配置 (广告配置)
+    # -
+    #     position: left
+    #     type: adsense
+    #     # AdSense client ID
+    #     client_id: ''
+    #     # AdSense AD unit ID
+    #     slot_id: ''
     # Follow.it email subscription widget configurations
     # 订阅邮寄配置
-    -
-        # 小部件应该放在哪里，左边栏还是右边栏
-        position: left
-        type: followit
-        # 提示文本下的电子邮件输入
-        description: 
-        # 订阅表单动作URL
-        action_url: ''
-        # 报料验证码
-        verification_code: ''
+    # -
+    #     position: left
+    #     type: followit
+    #     # 提示文本下的电子邮件输入
+    #     description: 
+    #     # 订阅表单动作URL
+    #     action_url: ''
+    #     # 报料验证码
+    #     verification_code: ''
 # 插件配置
 # https://ppoffice.github.io/hexo-theme-icarus/categories/Plugins/
 plugins:
