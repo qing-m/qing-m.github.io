@@ -3,10 +3,10 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "build": "hexo generate --icarus-dont-generate-config",
+    "build": "hexo generate",
     "clean": "hexo clean",
-    "deploy": "hexo deploy --icarus-dont-generate-config",
-    "server": "hexo server --icarus-dont-generate-config"
+    "deploy": "hexo deploy",
+    "server": "hexo server"
   },
   "hexo": {
     "version": "5.4.0"
