@@ -1,14 +1,13 @@
-# Version of the configuration file
+# 这个版本号与主题版本号相关却不总是相同。 Icarus使用此版本号来决定是否升级默认主题配置文件。 请不要自己更改这个版本号。
 version: 4.0.0
-# Icarus theme variant, can be "default" or "cyberpunk"
+# 主题样式 可以市 'default' 或者 'cyberpunk'
 variant: cyberpunk
-# Path or URL to the website's logo
+# 设置你站点的logo。 此logo会显示在导航栏和页脚。 logo配置的值既可以是你的logo
 logo: /img/logo.svg
-# Page metadata configurations
 head:
-    # URL or path to the website's icon
+    # 网站图标的URL或路径 /themes/icarus/source/img
     favicon: /img/favicon.svg
-    # Web application manifests configuration
+    # Web应用程序清单配置
     # https://developer.mozilla.org/en-US/docs/Web/Manifest
     manifest:
         # Name of the web application (default to the site title)
@@ -101,49 +100,43 @@ head:
         - ''
     # URL or path to the website's RSS atom.xml
     rss: 
-# Page top navigation bar configurations
+# 页面顶部导航栏配置
 navbar:
-    # Navigation menu items
+    # 导航菜单项
     menu:
-        Home: /
-        Archives: /archives
-        Categories: /categories
-        Tags: /tags
-        About: /about
-    # Links to be shown on the right of the navigation bar
+        首页: /
+        归档: /archives
+        类别: /categories
+        标签: /tags
+        关于: /about
+    # 链接显示在导航栏的右侧
     links:
         Download on GitHub:
             icon: fab fa-github
-            url: 'https://github.com/ppoffice/hexo-theme-icarus'
-# Page footer configurations
+            url: 'https://github.com/qing-m'
+# 页脚配置
 footer:
-    # Links to be shown on the right of the footer section
+    # 链接显示在页脚部分的右侧
     links:
-        Creative Commons:
-            icon: fab fa-creative-commons
-            url: 'https://creativecommons.org/'
-        Attribution 4.0 International:
-            icon: fab fa-creative-commons-by
-            url: 'https://creativecommons.org/licenses/by/4.0/'
         Download on GitHub:
             icon: fab fa-github
-            url: 'https://github.com/ppoffice/hexo-theme-icarus'
-# Article related configurations
+            url: 'https://github.com/qing-m'
+# 文章相关的配置
 article:
-    # Code highlight settings
+    # 代码高亮显示设置
     highlight:
-        # Code highlight themes
+        # 代码高亮显示主题
         # https://github.com/highlightjs/highlight.js/tree/master/src/styles
         theme: atom-one-light
-        # Show copy code button
+        # 是否展示复制按钮
         clipboard: true
-        # Default folding status of the code blocks. Can be "", "folded", "unfolded"
+        # 代码块的默认折叠状态。可以是“”，“折叠”，“展开”
         fold: unfolded
-    # Whether to show estimated article reading time
+    # 是否显示估计的文章阅读时间
     readtime: true
-    # Whether to show updated time. For "auto", shows article update time only when page.updated is set and it is different from page.date
+    # 是否显示更新后的时间。对于“auto”，只在页面时显示文章更新时间。更新设置与page.date不同
     update_time: true
-    # Article licensing block
+    # 文章许可协议
     licenses:
         Creative Commons:
             icon: fab fa-creative-commons
@@ -154,159 +147,128 @@ article:
         Noncommercial:
             icon: fab fa-creative-commons-nc
             url: 'https://creativecommons.org/licenses/by-nc/4.0/'
-# Search plugin configurations
+# 搜索插件配置
 # https://ppoffice.github.io/hexo-theme-icarus/categories/Plugins/Search/
 search:
     type: insight
-# Comment plugin configurations
+# 评论插件配置
 # https://ppoffice.github.io/hexo-theme-icarus/categories/Plugins/Comment/
 comment:
     type: disqus
     # Disqus shortname
     shortname: ''
-# Donate plugin configurations
+# 捐赠插件配置
 # https://ppoffice.github.io/hexo-theme-icarus/categories/Plugins/Donation/
 donates:
-    # "Afdian.net" donate button configurations
-    -
-        type: afdian
-        # URL to the "Afdian.net" personal page
-        url: ''
-    # Alipay donate button configurations
+    #支付宝捐赠按钮配置
     -
         type: alipay
-        # Alipay qrcode image URL
+        # 支付宝二维码图片
         qrcode: ''
-    # "Buy me a coffee" donate button configurations
-    -
-        type: buymeacoffee
-        # URL to the "Buy me a coffee" page
-        url: ''
-    # Patreon donate button configurations
-    -
-        type: patreon
-        # URL to the Patreon page
-        url: ''
-    # Paypal donate button configurations
-    -
-        type: paypal
-        # Paypal business ID or email address
-        business: ''
-        # Currency code
-        currency_code: USD
-    # Wechat donate button configurations
+    # 微信捐赠按钮配置
     -
         type: wechat
-        # Wechat qrcode image URL
+        # 微信宝二维码图片
         qrcode: ''
-# Share plugin configurations
+# 分享插件配置
 # https://ppoffice.github.io/hexo-theme-icarus/categories/Plugins/Share/
 share:
     type: sharethis
     # URL to the ShareThis share plugin script
     install_url: ''
-# Sidebar configurations.
-# Please be noted that a sidebar is only visible when it has at least one widget
+# 侧边栏的配置
+# 请注意，侧边栏只有在至少有一个小部件时才可见
 sidebar:
-    # Left sidebar configurations
+    # 左栏的配置
     left:
-        # Whether the sidebar sticks to the top when page scrolls
+        # 当页面滚动时侧边栏是否停留在顶部
         sticky: false
-    # Right sidebar configurations
+    # 右栏的配置
     right:
-        # Whether the sidebar sticks to the top when page scrolls
+        # 当页面滚动时侧边栏是否停留在顶部
         sticky: false
-# Sidebar widget configurations
+# 布局配置文件
 # http://ppoffice.github.io/hexo-theme-icarus/categories/Widgets/
 widgets:
-    # Profile widget configurations
+    # 配置小部件的配置
     -
-        # Where should the widget be placed, left sidebar or right sidebar
+        # 小部件应该放在哪里，左边栏还是右边栏
         position: left
         type: profile
-        # Author name
-        author: Your name
-        # Author title
-        author_title: Your title
-        # Author's current location
-        location: Your location
-        # URL or path to the avatar image
-        avatar: 
-        # Whether show the rounded avatar image
-        avatar_rounded: false
-        # Email address for the Gravatar
-        gravatar: 
-        # URL or path for the follow button
-        follow_link: 'https://github.com/ppoffice'
-        # Links to be shown on the bottom of the profile widget
+        # 作者名字
+        author: 琦玉
+        # 作者描述
+        author_title: 我并不喜欢华丽
+        # 位置
+        location: Z市
+        # 头像URL
+        avatar: /img/header.jpg
+        # 是否显示圆形头像图像
+        avatar_rounded: true
+        # # Gravatar的电子邮件地址
+        # gravatar: '809221582@qq.com'
+        # 关注我的URL
+        follow_link: 'https://github.com/qing-m'
+        # 链接显示在配置文件小部件的底部
         social_links:
             Github:
                 icon: fab fa-github
-                url: 'https://github.com/ppoffice'
-            Facebook:
-                icon: fab fa-facebook
-                url: 'https://facebook.com'
-            Twitter:
-                icon: fab fa-twitter
-                url: 'https://twitter.com'
-            Dribbble:
-                icon: fab fa-dribbble
-                url: 'https://dribbble.com'
+                url: 'https://github.com/qing-m'
             RSS:
                 icon: fas fa-rss
                 url: /
-    # Table of contents widget configurations
+    # 小部件配置的目录表
     -
-        # Where should the widget be placed, left sidebar or right sidebar
+        # 小部件应该放在哪里，左边栏还是右边栏
         position: left
         type: toc
-        # Whether to show the index of each heading
+        # 是否显示每个标题的索引
         index: true
-        # Whether to collapse sub-headings when they are out-of-view
+        # 是否在看不到副标题时折叠副标题
         collapsed: true
-        # Maximum level of headings to show (1-6)
+        # 标题显示的最高水平(1-6)
         depth: 3
-    # Recommendation links widget configurations
+    # 建议链接小部件配置
     -
-        # Where should the widget be placed, left sidebar or right sidebar
+        # 小部件应该放在哪里，左边栏还是右边栏
         position: left
         type: links
-        # Names and URLs of the sites
+        # 站点的名称和url
         links:
             Hexo: 'https://hexo.io'
             Bulma: 'https://bulma.io'
-    # Categories widget configurations
+    # 类别小部件的配置
     -
-        # Where should the widget be placed, left sidebar or right sidebar
+        # 小部件应该放在哪里，左边栏还是右边栏
         position: left
         type: categories
-    # Recent posts widget configurations
+    # 最近发布的小部件配置
     -
-        # Where should the widget be placed, left sidebar or right sidebar
+        # 小部件应该放在哪里，左边栏还是右边栏
         position: left
         type: recent_posts
-    # Archives widget configurations
+    # 档案小部件的配置
     -
-        # Where should the widget be placed, left sidebar or right sidebar
+        # 小部件应该放在哪里，左边栏还是右边栏
         position: left
         type: archives
-    # Tags widget configurations
+    # 标签小部件的配置
     -
-        # Where should the widget be placed, left sidebar or right sidebar
+        # 小部件应该放在哪里，左边栏还是右边栏
         position: left
         type: tags
-    # Google FeedBurner email subscription widget configurations
+    # Google FeedBurner email 订阅小部件的配置
     -
-        # Where should the widget be placed, left sidebar or right sidebar
+        # 小部件应该放在哪里，左边栏还是右边栏
         position: left
         type: subscribe_email
-        # Hint text under the email input
+        # 提示文本下的电子邮件输入
         description: 
         # Feedburner ID
         feedburner_id: ''
-    # Google AdSense unit configurations
+    # Google AdSense 配置
     -
-        # Where should the widget be placed, left sidebar or right sidebar
+        # 小部件应该放在哪里，左边栏还是右边栏
         position: left
         type: adsense
         # AdSense client ID
@@ -314,29 +276,30 @@ widgets:
         # AdSense AD unit ID
         slot_id: ''
     # Follow.it email subscription widget configurations
+    # 订阅邮寄配置
     -
-        # Where should the widget be placed, left sidebar or right sidebar
+        # 小部件应该放在哪里，左边栏还是右边栏
         position: left
         type: followit
-        # Hint text under the email input
+        # 提示文本下的电子邮件输入
         description: 
-        # Subscription form action URL
+        # 订阅表单动作URL
         action_url: ''
-        # Feed claiming verification code
+        # 报料验证码
         verification_code: ''
-# Plugin configurations
+# 插件配置
 # https://ppoffice.github.io/hexo-theme-icarus/categories/Plugins/
 plugins:
-    # Enable page startup animations
+    # 启用页面启动动画
     animejs: true
-    # Show the "back to top" button
+    # 显示“返回顶部”按钮
     back_to_top: true
-    # Baidu Analytics plugin settings
+    # 百度分析插件设置
     # https://tongji.baidu.com
     baidu_analytics:
         # Baidu Analytics tracking ID
         tracking_id: 
-    # Bing Webmaster Tools plugin settings
+    # Bing 网站管理员工具插件设置
     # https://www.bing.com/toolbox/webmaster/
     bing_webmaster:
         # Bing Webmaster Tools tracking ID in the <meta> tag
@@ -399,10 +362,10 @@ plugins:
     twitter_conversion_tracking:
         # Twitter Pixel ID
         pixel_id: 
-# CDN provider settings
+# CDN提供商设置
 # https://ppoffice.github.io/hexo-theme-icarus/Configuration/Theme/speed-up-your-site-with-custom-cdn/
 providers:
-    # Name or URL template of the JavaScript and/or stylesheet CDN provider
+    # JavaScript和/或样式表CDN提供程序的名称或URL模板
     cdn: jsdelivr
     # Name or URL template of the webfont CDN provider
     fontcdn: google
