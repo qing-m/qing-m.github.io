@@ -1,11 +1,8 @@
-# Hexo Configuration
-
-# Site
-title: CYBERPUNK
-subtitle: ALONE
+title: 琦玉的小破站
+subtitle: Alone
 description: 我的个人博客
 keywords: 个人博客;赛博朋克风网站;好看的个人博客;学习天地
-author: 汪汪队
+author: 琦玉
 language: en
 timezone: Asia/Shanghai
 
@@ -89,9 +86,9 @@ index_generator:
 ## 默认分类
 default_category: uncategorized
 ## 分类别名
-category_map:
+category_map: null
 ## 标签别名
-tag_map:
+tag_map: null
 
 # Metadata elements
 ## https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meta
