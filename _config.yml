@@ -117,7 +117,7 @@ ignore:
 
 # Extensions
 ## 当前主题名称。值为false时禁用主题
-theme: landscape
+theme: icarus
 
 # Deployment
 ## 部署部分的设置
