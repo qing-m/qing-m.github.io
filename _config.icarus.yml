@@ -127,7 +127,7 @@ article:
     highlight:
         # 代码高亮显示主题
         # https://github.com/highlightjs/highlight.js/tree/master/src/styles
-        theme: atom-one-light
+        theme: vs2015
         # 是否展示复制按钮
         clipboard: true
         # 代码块的默认折叠状态。可以是“”，“折叠”，“展开”
