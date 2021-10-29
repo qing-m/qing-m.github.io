@@ -154,9 +154,10 @@ search:
 # 评论插件配置
 # https://ppoffice.github.io/hexo-theme-icarus/categories/Plugins/Comment/
 comment:
-    type: disqus
+    type: changyan
     # Disqus shortname
-    shortname: ''
+    app_id: cyvJojvCq
+    conf: prod_e8351fbba4b227f0502a7934b861d6eb
 # 捐赠插件配置
 # https://ppoffice.github.io/hexo-theme-icarus/categories/Plugins/Donation/
 donates:
