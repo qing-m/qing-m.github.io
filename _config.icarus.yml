@@ -174,9 +174,9 @@ donates:
 # 分享插件配置
 # https://ppoffice.github.io/hexo-theme-icarus/categories/Plugins/Share/
 share:
-    type: sharethis
+    type: bdshare
     # URL to the ShareThis share plugin script
-    install_url: ''
+    # install_url: ''
 # 侧边栏的配置
 # 请注意，侧边栏只有在至少有一个小部件时才可见
 sidebar:
