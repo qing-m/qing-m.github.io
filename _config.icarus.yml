@@ -6,7 +6,7 @@ variant: cyberpunk
 logo: /img/logo.svg
 head:
     # 网站图标的URL或路径 /themes/icarus/source/img
-    favicon: /img/favicon.svg
+    favicon: /img/favicon.ico
     # Web应用程序清单配置
     # https://developer.mozilla.org/en-US/docs/Web/Manifest
     manifest:
