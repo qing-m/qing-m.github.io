@@ -1,5 +1,5 @@
 ---
-title: 手写一个Promise?
+title: 手写一个Promise
 categories:
   - 深入理解源码
 tags:
