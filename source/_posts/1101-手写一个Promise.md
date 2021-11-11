@@ -214,3 +214,62 @@ then(onFufilled, onRejected) {
 {% endcodeblock %}
 
 >到这里链式调用就可以跑了，效果和原生Promise一样
+
+# 实现透传
+有如下代码：
+{% codeblock lang:js %}
+const p1 = new Promise((resolve, rject) => {
+  setTimeout(() => {
+    reslove('成功')
+    reject('失败')
+  }, 1000)
+})
+
+p1.then().then().then().then(data => {
+  console.log('success', data)
+}, err => {
+  console.log('failed', err)
+})
+// 输出：success 成功
+// 输出：failed 失败
+{% endcodeblock %}
+## 分析
+- 当resolve的时候，实际上可以看做
+  {% codeblock lang:js %}
+    p1.then(v => {
+      return v
+    }).then(v => {
+      return v
+    }).then(v => {
+      return v
+    }).then(data => {
+      console.log('success', data) 
+    }, err => {
+      console.log('failed', err)
+    })
+  {% endcodeblock %}
+  **每次返回当前的data，直到最后被打印**
+- 当reject的时候，实际上可以看做
+  {% codeblock lang:js %}
+    p1.then(()=>{}, err => {
+      throw err
+    }).then(()=>{}, err => {
+      throw err
+    }).then(()=>{}, err => {
+      throw err
+    }).then(data => { 
+      console.log('success', data) 
+    }, err => { 
+      console.log('failed', err) 
+    })
+  {% endcodeblock %}
+  **每次抛出当前错误，直到最后被打印**
+
+因此then方法稍微加点代码：
+{% codeblock lang:js %}
+then(onFufilled, onRejected) {
+  onFufilled = typeof onFufilled === 'function' ? onFufilled : v=>v
+  onRejected = typeof onRejected === 'function' ? onRejected : err => { throw err }
+  ...
+}
+{% endcodeblock %}
