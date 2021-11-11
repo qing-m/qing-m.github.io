@@ -49,20 +49,20 @@ const PENDING = 'PENDING'
 
 class Promise {
   constructor(executor) {
-    this.state = PENDING
+    this.status = PENDING
     this.value = undefined
     this.reason = undefined
 
     let resolve = (value) => {
-      if(this.state === PENDING) {
-        this.state = RESOLVED
+      if(this.status === PENDING) {
+        this.status = RESOLVED
         this.value = value
       }
     };
 
     let reject = (reason) => {
-      if(this.state === PENDING) {
-        this.state = REJECTED
+      if(this.status === PENDING) {
+        this.status = REJECTED
         this.reason = reason
       }
     };
@@ -75,11 +75,11 @@ class Promise {
   }
 
   then(onFufilled, onRejected) {
-    if(this.state === RESOLVED) {
+    if(this.status === RESOLVED) {
       onFufilled(this.value)
     }
 
-    if(this.state === REJECTED) {
+    if(this.status === REJECTED) {
       onRejected(this.reason)
     }
   }
@@ -105,7 +105,7 @@ p1.then(data => {
 {% endcodeblock %}
 ## 分析
 - 当JavaScript主线程执行到**executor**，setTimeout作为宏观任务被暂时储存，按照**主线程 => 微观任务 => 宏观任务**的事件循环顺序执行
-- 此时执行到then，由于没有调用resolve，所以state的状态为pending，所以上面的代码什么也不会输出。
+- 此时执行到then，由于没有调用resolve，所以status的状态为pending，所以上面的代码什么也不会输出。
 
 ## 解决
 - 创建两个数组**onResolvedCallbacks**、**onRejectedCallbacks**。**excutor**执行异步代码时，在then里增加判断，如果状态为**pending**，就将**onFufilled**和**onRejected**分别存入**onResolvedCallbacks**和**onRejectedCallbacks**，当异步代码被执行完毕，调用resolve或reject的时候，从数组里面取出，依次执行。
@@ -120,8 +120,8 @@ constructor(executor) {
   this.onRejectedCallbacks = []
   
   let resolve = (value) => {
-    if(this.state === PENDING) {
-      this.state = RESOLVED
+    if(this.status === PENDING) {
+      this.status = RESOLVED
       this.value = value
       // 一旦resolve执行，调用成功数组的函数
       this.onResolvedCallbacks.forEach(fn => fn())
@@ -129,8 +129,8 @@ constructor(executor) {
   }
 
   let resolve = (reason) => {
-    if(this.state === PENDING) {
-      this.state = REJECTED
+    if(this.status === PENDING) {
+      this.status = REJECTED
       this.reason = reason
       // 一旦reject执行，调用失败数组的函数
       this.onRejectedCallbacks.forEach(fn => fn())
@@ -142,7 +142,7 @@ constructor(executor) {
 
 then(onFufilled, onRejected) {
   ...
-  if(this.state === PENDING) {
+  if(this.status === PENDING) {
     this.onResolvedCallbacks.push(() => {
       onFufilled(this.value)
     })
