@@ -97,7 +97,7 @@ head:
     meta:
         # Meta tag specified in <attribute>=<value> style
         # E.g., name=theme-color;content=#123456 => <meta name="theme-color" content="#123456">
-        - ''
+        - name=baidu-site-verification;content=code-eP4yHkbhkz
     # URL or path to the website's RSS atom.xml
     rss: 
 # 页面顶部导航栏配置
