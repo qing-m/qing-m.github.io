@@ -8,82 +8,79 @@ tags:
 date: 2021-11-01 16:18:38
 toc: true
 ---
-# 简介
-在工作当中，避免不了使用Promise来解决异步回调问题。回调地狱一直深深的在我脑海里。Promise的出现直接解决了这种痛苦。当熟练的使用Promise后，就会想去看看它到底是怎样写出来的，手写一个Promis也是面试中一个常见问题。接下来我们就一起来研究一下Promise是怎样写出来的。
+**由浅入深实现符合Promise A+规范的Promise代码**
+
 <!-- more -->
 
-# Promise的声明
-首先Promis一定是一个类
-* 由于**new Promise((resolve,reject)=>{})**, 所以传入一个参数，这个参数是一个函数，这里我们根据A+规范称作它为executor。
-* executor里面有两个参数：**resolve**（成功），**reject**（失败）。
-* 由于**reslove**和**reject**都是可执行的，所以都是函数，我们用let声明。
+# 实现简单版(非异步)
+{% codeblock lang:js %}
+const p1 = new Promise((reslove,reject) => {
+  console.log('1')
+  reslove('成功')
+  reject('失败')
+  throw new Error('发生错误')
+})
+p1.then(data => {
+  console.log(data)
+}, err => {
+  console.log(err)
+})
 
-{% codeblock lang:Javascript %}
+// 保留resolve 输出结果 1 2 success 成功
+// 保留reject 输出结果 1 2 failed 失败
+// 保留throw new Error 输出结果 1 2 failed Error: 抛出错误
+{% endcodeblock %}
+
+## 总结
+1. 传入Promise构造函数的**executor**是立即执行函数
+2. then方法是promise对象上的方法，并接收两个函数:**onFufilled**, **onRejected**
+3. onFufilled接收参数**value**, onRejected接收参数**reason**, 并且值是由resolve和reject传递过来的，由此可见，value和reason也是构造函数上的属性
+4. 当调用了resolve方法后，promise状态由pending改为resolved且不能再被更改，同理reject
+5. 抛出错误后，同样会走reject方法，reason由onRejected方法打印
+
+由上所述，我们可以写出以下代码
+{% codeblock lang:javascript %}
+const RESOLVED = 'RESOLVED'
+const REJECTED = 'REJECTED'
+const PENDING = 'PENDING'
+
 class Promise {
   constructor(executor) {
-    let reslove = () => {}; // 成功
-    let reject = () => {}; // 失败
-    executor(reslove,reject) // 立即执行
-  }
-}
-{% endcodeblock %}
+    this.state = PENDING
+    this.value = undefined
+    this.reason undefined
 
-# 解决基本状态
-在A+规范中对Promise有规定：
-* Promise存在三个状态：**pending**、**fulfilled**、**rejected**
-* pending（等待态）为初始态，并可以转化为fulfilled（成功态）和rejected（失败态）
-
-在这样的情况下Promise会由pending转化为fulfilled
-{% codeblock lang:javascript %}
-let p1 = new Promise(( reslove, reject ) => {
-  ...逻辑处理
-  reslove(value)
-})
-{% endcodeblock %}
-上面代码使用了Promise，并且reslove出一个值。zai在这里Promise会由pending转化为fulfilled状态，并且不可以再次改变状态
-
-同理：
-{% codeblock lang:javascript %}
-let p2 = new Promise(( reslove, reject ) => {
-  ...逻辑处理
-  reject(value)
-})
-{% endcodeblock %}
-p2 reject出一个值。在这里Promise会由pending转化为rejected状态，也不可以再次改变状态
-
-如果new Promise传入的函数executor出现错误时会直接执行reject();
-所以我们得出以下代码
-{% codeblock lang:javascript %}
-class Promise {
-  cconstructor(executor) {
-    this.state = 'pending' // 初始状态
-    this.value = undefined // 成功的值
-    this.reason = undefined // 失败的原因
     let reslove = (value) => {
-      // state改变,resolve调用就会失败
-      if (this.state === 'pending') {
-        // resolve调用后，state转化为成功态
-        this.state = 'fulfilled';
-        // 储存成功的值
-        this.value = value;
+      if(this.state === PENDING) {
+        this.state = RESOLVED
+        this.value = value
       }
     };
-    let reject = (reason) => {
-      // state改变,reject调用就会失败
-      if (this.state === 'pending') {
-        // reject调用后，state转化为失败态
-        this.state = 'rejected';
-        // 储存失败的原因
-        this.reason = reason;
+
+    let reject = (reason) = > {
+      if(this.state === PENDING) {
+        this.state = RESOLVED
+        this.reason = reason
       }
     };
+
     try {
-      executor(resolve, reject);
-    }catch {
-      reject(err);
+      executor(reslove, reject)
+    }catch(error) {
+      reject(error)
+    };
+  }
+
+  then(onFufilled, onRejected) {
+    if(this.state === RESLOVED) {
+      onFufilled(this.value)
+    }
+
+    if(this.state === REJECTED) {
+      onRejected(this.reason)
     }
   }
 }
 {% endcodeblock %}
 
-# then方法
+# 考虑executor执行异步函数的情况
