@@ -275,3 +275,33 @@ then(onFufilled, onRejected) {
 {% endcodeblock %}
 
 # 如果X是一个Promise
+有如下代码：
+{% codeblock lang:js %}
+const p1 = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    resolve(new Promise((resolve, reject) => {
+      resolve('成功')
+    }))
+  }, 1000)
+})
+
+p1.then().then().then().then(data => {
+  console.log('success', data)
+}, err => {
+  console.log('failed', err)
+})
+{% endcodeblock %}
+此时需要特殊处理，调用传入的promise的then方法，构造resolve方法(规范中叫做y)，构造reject方法(规范中叫做r,)将value传入，递归下去。
+
+## 重点
+>由于我们不确定resolve和reject的值类型，所以我们统一写一个方法去处理他们resolvePromise(promise2, x, resolve, reject)由于promise2在当前上下文无法获取到，所以包裹一个异步函数setTimeout，而异步函数抛错又无法被包裹在executor的trycatch捕获，所以再套一层trycatch
+
+代码如下：
+{% codeblock lang:js %}
+then(onFufilled, onRejected) {
+  onFufilled = typeof onFufilled === 'function' ? onFufilled : v=>v
+  onRejected = typeof onRejected === 'function' ? onRejected : err => { throw err }
+
+  let promise2 = new Promise((resolve, rject))
+}
+{% endcodeblock %}
