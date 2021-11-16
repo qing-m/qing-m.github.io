@@ -273,3 +273,5 @@ then(onFufilled, onRejected) {
   ...
 }
 {% endcodeblock %}
+
+# 如果X是一个Promise
