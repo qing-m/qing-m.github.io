@@ -302,6 +302,209 @@ then(onFufilled, onRejected) {
   onFufilled = typeof onFufilled === 'function' ? onFufilled : v=>v
   onRejected = typeof onRejected === 'function' ? onRejected : err => { throw err }
 
-  let promise2 = new Promise((resolve, rject))
+  let promise2 = new Promise((resolve, rject) => {
+    if(this.status === RESOLVED) {
+      setTimeout(() => {
+        try {
+          let x = onFufilled(this.value)
+          resolvePromise(promise2, x, resolve, reject)
+        }catch(error) {
+          reject(error)
+        }
+      })
+    }
+
+    if(this.status === REJECTED) {
+      setTimeout(() => {
+        try {
+          let x = onRejected(this.reason)
+          resolvePromise(promise2, x, resolve, reject)
+        }catch(error) {
+          reject(error)
+        }
+      })
+    }
+
+    if(this.status === PENDING) {
+      this.onResolvedCallbacks.push(() => { 
+        setTimeout(() => { 
+          try { 
+            let x = onFufilled(this.value) 
+            resolvePromise(promise2, x, resolve, reject) } 
+          catch (error) { 
+            reject(error) 
+          } 
+        },0) 
+      }) 
+      this.onRejectedCallbacks.push(() => { 
+        setTimeout(() => { 
+          try { 
+            let x = onRejected(this.reason) 
+            resolvePromise(promise2, x, resolve, reject) } 
+          catch (error) { 
+            reject(error) 
+          } 
+        },0)
+      })
+    }
+  })
+  return promise2
 }
 {% endcodeblock %}
+>至此，我们将处理x的逻辑统一到resolvePromise方法中处理
+
+## 处理resolvePromise方
+**如果promise2 === x**
+首先，如果 promise2 === x，得抛个错出去。因为我自己不可能等我自己出门去买菜。
+demo如下：
+{% codeblock lang:js %}
+const p1 = new Promise((resolve,reject) => { 
+  resolve('成功') 
+}) 
+let p2 = p1.then(data => { 
+  return p2 
+}) 
+
+// 输出：UnhandledPromiseRejectionWarning: TypeError: Chaining cycle detected for promise #<Promise>
+{% endcodeblock %}
+这种情况我们需要和源码一样，抛出一个Chaining cycle detected for promise #<Promise>的类型错误。
+
+## 如果x是普通值
+如果x不是对象或者函数，证明是个普通值，普通值的话，直接调用promise2的resolve方法，返回就行
+此时我们的代码如下：
+{% codeblock lang:js %}
+const resolvePromise = (promise2, x, resolve, reject) => { 
+  if(promise2 === x) { 
+    return reject(new TypeError('Chaining cycle detected for promise #<Promise>')) 
+  } 
+  if((typeof x === 'object' && x != null) || typeof x === 'function') {
+
+  } else { 
+    resolve(x) 
+  } 
+}
+{% endcodeblock %}
+
+## 如果x是对象或者函数
+如果x是对象或者函数,根据promiseA+规范，我们要**let then = x.then**
+**并且要trycatch包裹他，因为要谨防别人手动定义then方法抛错**
+比如以下代码：
+{% codeblock lang:js %}
+let x = {}
+Object.defineProperty(x,'then',{
+  get() {
+    throw new Error('错误')
+  }
+})
+{% endcodeblock %}
+此时我们代码如下：
+{% codeblock lang:js %}
+const resolvePromise = (promise2,x,resolve,reject) => {
+  if(promise2 === x) {
+    return reject(new TypeError('Chaining cycle detected for promise #<Promise>'))
+  }
+  if((typeof x === 'object' && x != null) || typeof x === 'function') {
+    try {
+      let then = x.then
+      if(typeof then === 'function') {
+
+      }else {
+        resolve(x)
+      }
+    }catch(error) {
+      reject(error)
+    }
+  }else {
+    resolve(x)
+  }
+}
+{% endcodeblock %}
+
+## 如果x是函数
+>关键点来了，根据A+规范，我们需要call一下then，并且this为x，resolvePromise的值为y, rejectPromise的值为r，**有可能promise再套promise再套promise，所以这里我们需要递归处理,代码如下**
+{% codeblock lang:js %}
+const resolvePromise = (promise2,x,resolve,reject) => {
+  if(promise2 === x) {
+    return reject(new TypeError('Chaining cycle detected for promise #<Promise>'))
+  }
+  if((typeof x === 'object' && x != null) || typeof x === 'function') {
+    try {
+      let then = x.then
+      if(typeof then === 'function') {
+        then.call( x, y => { 
+          resolvePromise(promise2, y, resolve, reject) 
+        },r => { 
+          reject(r) 
+        })
+      }else {
+        resolve(x)
+      }
+    }catch(error) {
+      reject(error)
+    }
+  }else {
+    resolve(x)
+  }
+}
+{% endcodeblock %}
+
+## 防止别人写的promise，既调用resolve,又调用reject
+至此我们已经实现了一个promise，只是还有点小瑕疵，因为我们必须谨防别人写的promise，不按照A+规范来，所以我们需要在上述代码里加一个小控制called。代码如下
+{% codeblock lang:js %}
+const resolvePromise = (promise2,x,resolve,reject) => {
+  if(promise2 === x) {
+    return reject(new TypeError('Chaining cycle detected for promise #<Promise>'))
+  }
+  if((typeof x === 'object' && x != null) || typeof x === 'function') {
+    let called
+    try {
+      let then = x.then
+      if(typeof then === 'function') {
+        then.call( x, y => { 
+          if(called) return
+          called = true
+          resolvePromise(promise2, y, resolve, reject) 
+        },r => { 
+          if(called) return
+          called = true
+          reject(r) 
+        })
+      }else {
+        resolve(x)
+      }
+    }catch(error) {
+      if(called) return
+      called = true
+      reject(error)
+    }
+  }else {
+    resolve(x)
+  }
+}
+
+// 只有x.then出错的时候也得控制一下，为了防止，下次别人在reject里调用resolve
+{% endcodeblock %}
+
+# A+规范测试
+增加代码：
+{% codeblock lang:js %}
+Promise.defer = Promise.deferred = function () { 
+  let dfd = {} 
+  dfd.promise = new Promise((resolve,reject) => { 
+    dfd.resolve = resolve dfd.reject = reject 
+  }) 
+  return dfd 
+} 
+// 延迟对象，使我们在一般情况下，不用new Promise()，而是可以调用Promise.defer少嵌套一层
+{% endcodeblock %}
+>初始化npm: npm init -y
+
+>安装测试包：npm i promises-aplus-tests -S
+
+>修改package.json："scripts": { "test": "promises-aplus-tests promise.js //你的文件名字---这是注释请删除" }
+
+>执行测试脚本： npm run test
+
+## 测试结果
+
+{% asset_img promise-success-test.png image %}
