@@ -356,7 +356,7 @@ plugins:
 # https://ppoffice.github.io/hexo-theme-icarus/Configuration/Theme/speed-up-your-site-with-custom-cdn/
 providers:
     # JavaScript和/或样式表CDN提供程序的名称或URL模板
-    cdn: jsdelivr
+    cdn: loli
     # Name or URL template of the webfont CDN provider
     fontcdn: google
     # Name or URL of the fontawesome icon font CDN provider
