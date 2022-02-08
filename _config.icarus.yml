@@ -3,7 +3,7 @@ version: 4.0.0
 # 主题样式 可以市 'default' 或者 'cyberpunk'
 variant: cyberpunk
 # 设置你站点的logo。 此logo会显示在导航栏和页脚。 logo配置的值既可以是你的logo
-logo: /img/logo.svg
+logo: /img/favicon.ico
 head:
     # 网站图标的URL或路径 /themes/icarus/source/img
     favicon: /img/favicon.ico
